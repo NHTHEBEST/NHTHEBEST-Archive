@@ -1,0 +1,14 @@
+<html>
+    <head>
+            <link rel="stylesheet" href='/static/style.css' />
+            <link rel="stylesheet" href='/static/markdown.css' />
+    </head>
+    
+    <body>
+        {% autoescape false %}
+        <div class="markdown-body">
+                {{post}}
+        </div>
+        {% endautoescape %}
+    </body>
+</html>
