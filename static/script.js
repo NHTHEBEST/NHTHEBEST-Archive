@@ -14,6 +14,11 @@ function update_search(){
 var dataList = document.getElementById('json-datalist');
 var input = document.getElementById('ajax');
 var data = input.value;
+
+// check length
+if (data.length <= 4){return}
+
+
 // Create a new XMLHttpRequest.
 var request = new XMLHttpRequest();
 
@@ -22,7 +27,7 @@ request.onreadystatechange = function(response) {
   if (request.readyState === 4) {
     if (request.status === 200) {
 
-      dataList.innerHTML = req.responseText;
+      dataList.innerHTML = request.responseText;
     } 
   }
 };
