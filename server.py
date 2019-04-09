@@ -1,4 +1,4 @@
-from flask import Flask, render_template, send_from_directory
+from flask import Flask, render_template, send_from_directory, request
 import markdown, os
 
 app = Flask(__name__)
@@ -17,9 +17,16 @@ def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static/favicon'),
                                'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
+
+# shuld retune 5 usfull options only 
 @app.route('/searchin/<inp>')
 def menu(inp):
     return '<option value="HTML">'
+# the search function 
+@app.route('/search')
+def search():
+    query = request.args.get("q")
+    return query
 
 @app.route('/p/<post>')
 def post(post):
