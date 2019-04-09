@@ -17,7 +17,7 @@ def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static/favicon'),
                                'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
-@app.route('/<post>')
+@app.route('/p/<post>')
 def post(post):
     md = ""
     code = 200
@@ -26,21 +26,18 @@ def post(post):
         md = f.read()
         f.close()
     except:
-        f = open("markdown/404.md", "r")
-        md = f.read()
-        f.close()
-        code = 404
+        return not_found()
     html = gethtml(md)
-    return render_template('post.html', post=html),code
+    return render_template('post.html', post=html, title=post)
 
 @app.errorhandler(404)
 def not_found(error):
     f = open("markdown/404.md", "r")
     md = f.read()
     f.close()
-    return render_template('page.html', post=gethtml(md)),404
+    return render_template('post.html', post=gethtml(md), title="404 Not Found"),404
 
-
-if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0',port=8080)
+# main
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=8080, debug=True)
     
