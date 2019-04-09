@@ -36,6 +36,35 @@ html, body {
 .footer a{
     text-decoration:none;
 }
+.search-input{
+    float: right;
+}
+
+.search-input input[type=submit]{
+    background: #000;
+    border: none;
+    color: white;
+    padding: 11px 24px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+.search-input input[type=submit]:hover{
+    background: #ccc;
+}
+
+.search-input input[type=text]{
+    background: #000;
+    border: none;
+    color: white;
+    padding: 11px 24px;
+
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
 </style>
 <script src="/static/script.js"></script>
 <script src="/static/highlight.pack.js"></script>
@@ -50,10 +79,18 @@ html, body {
           <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
           <a href="/" class="w3-bar-item w3-button w3-padding-large">HOME</a>
           <a href="/p/contents" class="w3-bar-item w3-button w3-padding-large w3-hide-small">CONTENTS</a>
-          <a href="javascript:void(0)" class="w3-padding-large w3-hover-red w3-hide-small w3-right"><i class="fa fa-search"></i></a>
+
+          <form id="search" class="search-input">
+              <input id="ajax" type="text" list="json-datalist" placeholder="Search" onkeydown="update_search()">
+              <datalist id="json-datalist"></datalist>
+              <input type="submit" value="Search">
+<!--              <a href="javascript:void(0)"  class="w3-padding-large w3-hover-red w3-hide-small w3-right"><i class="fa fa-search"></i></a>-->
+          </form>
+          
+
         </div>
 </div>
-      
+
 <!-- Navbar on small screens (remove the onclick attribute if you want the navbar to always show on top of the content when clicking on the links) -->
 <div id="navDemo" class="w3-bar-block w3-black w3-hide w3-hide-large w3-hide-medium w3-top" style="margin-top:46px">
         <a href="/p/contents" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">CONTENTS</a>

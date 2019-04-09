@@ -7,9 +7,30 @@ function myFunction() {
   }
 }
 
-var modal = document.getElementById('ticketModal');
-window.onclick = function(event) {
-  if (event.target == modal) {
-    modal.style.display = "none";
+
+
+function update_search(){
+// Get the <datalist> and <input> elements.
+var dataList = document.getElementById('json-datalist');
+var input = document.getElementById('ajax');
+var data = input.value;
+// Create a new XMLHttpRequest.
+var request = new XMLHttpRequest();
+
+// Handle state changes for the request.
+request.onreadystatechange = function(response) {
+  if (request.readyState === 4) {
+    if (request.status === 200) {
+
+      dataList.innerHTML = req.responseText;
+    } 
   }
+};
+var url = '/searchin/'
+// Update the placeholder text
+url = url.concat(data)
+console.log(url);
+// Set up and make the request.
+request.open('GET', url, true);
+request.send();
 }

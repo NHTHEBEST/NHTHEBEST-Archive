@@ -17,6 +17,10 @@ def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static/favicon'),
                                'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
+@app.route('/searchin/<inp>')
+def menu(inp):
+    return '<option value="HTML">'
+
 @app.route('/p/<post>')
 def post(post):
     md = ""
@@ -26,7 +30,7 @@ def post(post):
         md = f.read()
         f.close()
     except:
-        return not_found()
+        return not_found(None)
     html = gethtml(md)
     return render_template('post.html', post=html, title=post)
 
