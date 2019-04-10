@@ -1,4 +1,4 @@
-from flask import Flask, render_template, send_from_directory, request, Markup, Response
+from flask import Flask, render_template, send_from_directory, request, Markup, Response, redirect
 import markdown, os, glob, json
 
 app = Flask(__name__)
@@ -54,20 +54,21 @@ def api(call):
 
 @app.route('/searchin/<inp>')
 def menu(inp):
-    files = glob.glob('markdown/'+inp+'*.md')
+    files = glob.glob('markdown/*.md')
     # files = ['markdown\\404.md', 'markdown\\test.md']
     out = ''
     for x in files:
         x = x.replace('markdown\\', '')
         x = x.replace('.md','')
-        print(x)
-        out = out + '<option value="'+x+'">'
+        lq, lx, = inp.lower(),x.lower()
+        if lq in lx:
+            out = out + '<option value="'+x+'">'
     return out
 # the search function 
 @app.route('/search')
 def search():
     query = request.args.get("q")
-    files = glob.glob('markdown/'+query+'*.md')
+    files = glob.glob('markdown/*.md')
     # files = ['markdown\\404.md', 'markdown\\test.md']
     equery = ' : "'+str(Markup.escape(query))+'"'
     out = '<h1>Search'+equery+'</h1>\n<ul>\n'
@@ -76,8 +77,11 @@ def search():
         res = False
         x = x.replace('markdown\\', '')
         x = x.replace('.md','')
-        print(x)
-        out = out + '<li><h3><a href="/p/'+x+'">'+x+'</a></h3></li>\n'
+        if x == query:
+            return redirect('/p/'+x, code=302)
+        lq, lx, = query.lower(),x.lower()
+        if lq in lx:
+            out = out + '<li><h3><a href="/p/'+x+'">'+x+'</a></h3></li>\n'
     if res:
         out = '<h1>Search'+equery+'</h1>\n<h2>No Results</h2>'
     return render_template('post.html', post=out + '</ul>', title=query) 
