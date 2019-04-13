@@ -10,7 +10,7 @@ def gethtml(md):
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('post.html')
 
 @app.route('/favicon.ico')
 def favicon():
@@ -18,38 +18,6 @@ def favicon():
                                'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 
-@app.route('/api/<call>/')
-def api(call):
-    code = 200
-    key = request.args.get("key")
-    data = None 
-    if key != "":
-       # code = 403
-        ret = '{"error":{"code":403,"text":"Invalid Key"}}'
-    try:
-        data = json.load(request.data)
-    except:
-        code = 400
-        ret = '{"error":{"code":400,"text":"Invalid Json Post Data"}}'
-        
-    if call == 'SET' and code == 200:
-        # return code 201
-        # make new file
-        pass
-    elif call == 'DELETE' and code == 200:
-        pass# return code 200
-    elif call == 'UPDATE' and code == 200:
-        pass # return code 201
-    elif call == 'GET' and code == 200:
-        pass # return code 200
-    else:
-        code = 404
-        ret = '{"error":{"code":404,"text":"NOT A CALL"}}'
-    
-    resp = Response(response=ret,
-                    status=code,
-                    mimetype="application/json")
-    return resp
 
 
 @app.route('/searchin/<inp>')
@@ -107,5 +75,5 @@ def not_found(error):
 
 # main
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=8080, debug=True)
+    app.run(host='0.0.0.0', port=80)
     
