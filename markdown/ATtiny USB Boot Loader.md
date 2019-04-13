@@ -1,52 +1,94 @@
+
 # ATtiny 85 USB Boot Loader
->  Purpose  :
+
+> Purpose :
+
 >
->  Program ATtiny using USB 
->  and add USB device support
+
+> Program ATtiny using USB and add USB device support
+
+  
 
 ---
-Downloads:
-[USBaspLoader-tiny85.2012-05-13.zip](https://github.com/downloads/embedded-creations/USBaspLoader-tiny85/USBaspLoader-tiny85.2012-05-13.zip)
 
-GitHub Repo:
-[USBaspLoader-tiny85 on github](https://github.com/embedded-creations/USBaspLoader-tiny85)
+### Downloads:
+
+* 1
+
+* 2
 
 ---
+
 ### Hardware:
-* ATtiny 85
-* Arduino 
-* Breadboard
-* Jumper wires
+
+* 1x ATtiny 85
+
+* 1x Arduino
+
+* 1x Breadboard
+
+* 1x 10uf 25v capacitor
+
+* 6x Jumper wires
+
+  
+
 ---
+
 ### Instructions:
 
- Download the boot loader precompiled hex file or download the source and compile yourself. If you want to use one of the precompiled hex file, reference the fuse settings contained in the makefile and program the flash and fuses using your preferred tools.
+  
 
-Modify the makefile to correct use your preferred AVR programming tool.
+1. Download [files](/static/data/attiny usb boot loader/USB_Boot.zip)
 
-Program the boot loader to the tiny85 flash using ```make flash```. Set the fuses appropriately: ```make fuse``` leaves the external reset functionality enabled.
+2. Connect
 
-Download the USBasp driver if you need it for Windows. See "drivers" on the  [USBasp](http://www.fischl.de/usbasp/)  homepage.
+3. Run code
 
-At this point AVRDUDE should be able to connect to the tiny85 as a USBasp programmer, try reading the signature:
+4. Get [Board](https://www.ebay.com/sch/i.html?_nkw=Mini+ATTINY85+Micro+USB+Development+Programmer+Board+for+Tiny85-20PU+DIP-8+IC)
+
+  
+
+#### connect:
+
+Arduino +5V      --->  ATtiny Pin 8
+
+Arduino Ground --->  ATtiny Pin 4
+
+Arduino Pin 10   --->  ATtiny Pin 1
+
+Arduino Pin 11    --->  ATtiny Pin 5
+
+Arduino Pin 12    --->  ATtiny Pin 6
+
+Arduino Pin 13    --->  ATtiny Pin 7
+
+<img  src="/static/data/attiny usb boot loader/52713d5b757b7fc0658b4567.png"  style="height:200PX"/>
+
+Put the 10uF capacitor between ground and the Arduino reset pin. Make sure to keep an eye on the capacitors polarity (ground to ground!).
+
+It is rumored you only need this for the Arduino Uno, but I have found it helped matters to include it with earlier versions as well. If you find that it is not working in the next steps, simple remove it and see if that helps.
+
+Now open the Arduino IDE
+
+Select the "ArduinoISP" sketch from the "Examples" menu
+
+Select your Arduino type and port and flash
+
+#### code:
+
+change com9 with ardoino port
+
+```bat
+cd USB_boot
+
+avrdude -c stk500v1 -p attiny85 -C avrdude.conf -b 19200 -U lfuse:w:0xe1:m -U hfuse:w:0xdd:m -U efuse:w:0xfe:m -U flash:w:usb_bootloader.hex:i -P com9
 ```
-avrdude -p attiny85 -c usbasp
 
-avrdude: warning: cannot set sck period. please check for usbasp firmware update
-avrdude: AVR device initialized and ready to accept instructions
-Reading | ################################################## | 100% 0.04s
-avrdude: Device signature = 0x1e930b
-avrdude: safemode: Fuses OK
-avrdude done. Thank you.
-```
-Download the modified version of AVRDUDE or download the  [source](http://download.savannah.gnu.org/releases/avrdude/avrdude-5.11.tar.gz), apply the patch, and compile yourself.
+#### Finishing
 
-Use the modified version of AVRDUDE to program an application on the tiny85, and make sure it verifies successfully. The boot loader code should jump to the application shortly after AVRDUDE disconnects.
+Add this board url ```https://raw.githubusercontent.com/damellis/attiny/ide-1.6.x-boards-manager/package_damellis_attiny_index.json``` 
+And add the Digistump AVR Boards 
 
-To replace or update the application, disconnect and reconnect the USB cable (or otherwise reset the tiny85). The boot loader will connect to the PC as a USBasp programmer for 5 seconds before jumping to the application. If the application is invalid or erased, the boot loader will stay connected as a USBasp programmer until a new application is loaded successfully.
-
-If you need an extra I/O line you can use ```make disablereset``` to disable external reset functionality, allowing reset to be used for I/O - only set this after you're sure the boot loader is working.
-
----
-
-# [NOT DONE](http://www.embedded-creations.com/projects/attiny85-usb-bootloader-overview)
+### Install Drivers
+[download](/static/data/attiny usb boot loader/Digistump.Drivers.zip)
