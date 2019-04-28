@@ -26,7 +26,10 @@ def menu(inp):
     # files = ['markdown\\404.md', 'markdown\\test.md']
     out = ''
     for x in files:
-        x = x.replace('markdown\\', '')
+		if os.name == 'nt':
+			x = x.replace('markdown\\', '')
+		else:
+			x = x.replace('markdown/', '')
         x = x.replace('.md','')
         lq, lx, = inp.lower(),x.lower()
         if lq in lx:
@@ -43,7 +46,10 @@ def search():
     res = True
     for x in files:
         res = False
-        x = x.replace('markdown\\', '')
+		if os.name == 'nt':
+			x = x.replace('markdown\\', '')
+		else:
+			x = x.replace('markdown/', '')
         x = x.replace('.md','')
         if x == query:
             return redirect('/p/'+x, code=302)
