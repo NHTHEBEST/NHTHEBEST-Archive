@@ -81,6 +81,7 @@ def not_found(error):
 #relese function
 @app.route('/update')
 def update():
+    print("sudo git pull")
     os.system("git pull")
     return "<meta http-equiv=\"refresh\" content=\"3; URL='/'\" />OK"
 
