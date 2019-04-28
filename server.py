@@ -72,6 +72,11 @@ def not_found(error):
     md = f.read()
     f.close()
     return render_template('post.html', post=gethtml(md), title="404 Not Found"),404
+#relese function
+@app.route('/update')
+def update():
+    os.system("git pull")
+    return "<meta http-equiv=\"refresh\" content=\"3; URL='/'\" />OK"
 
 # main
 if __name__ == "__main__":
